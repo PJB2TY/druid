@@ -779,6 +779,8 @@ public class Lexer {
                 return SQLType.SHOW_FUNCTIONS;
             } else if (identifierEquals(FnvHash.Constants.ROLES)) {
                 return SQLType.SHOW_ROLES;
+            } else if (identifierEquals(FnvHash.Constants.ROLE)) {
+                return SQLType.SHOW_ROLE;
             } else if (identifierEquals(FnvHash.Constants.LABEL)) {
                 return SQLType.SHOW_LABEL;
             } else if (identifierEquals(FnvHash.Constants.GRANTS)) {
@@ -836,6 +838,8 @@ public class Lexer {
                 return SQLType.LIST_TABLES;
             } else if (identifierEquals(FnvHash.Constants.ROLES)) {
                 return SQLType.LIST_ROLES;
+            } else if (identifierEquals(FnvHash.Constants.TEMPORARY)) {
+                return SQLType.LIST_TEMPORARY_OUTPUT;
             } else if (identifierEquals("TENANT")) {
                 nextToken();
                 if (identifierEquals(FnvHash.Constants.ROLES)) {

@@ -367,6 +367,15 @@ public class ScanSQLTypeV2Test extends TestCase {
         assertEquals(SQLType.REMOVE, sqlType);
     }
 
+    public void test_sqlTypeV2_42() throws Exception {
+        String sql = "show role grant \n" +
+                "bsj65s8s6ahf@aliyun.com;";
+
+        Lexer lexer = SQLParserUtils.createLexer(sql, DbType.odps);
+        SQLType sqlType = lexer.scanSQLTypeV2();
+        assertEquals(SQLType.SHOW_ROLE, sqlType);
+    }
+
     public void test_sqlTypeV2_udf_01() throws Exception {
         String sql = "ALTER TABLE DWS_ITEM_APPLY2DELIV_LIST_DF\n" +
                 "\tCHANGE COLUMN DELIVERY_PDOTYPE RENAME TO DELIVERY_ORDER_TYPE;";
