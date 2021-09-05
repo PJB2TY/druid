@@ -1151,6 +1151,49 @@ public class Lexer {
         nextToken();
     }
 
+    public final boolean skipToNextLine(int startPosition) {
+        for (int i = 0; ; ++i) {
+            int pos = startPosition + i;
+            char ch = charAt(pos);
+            if (ch == '\n') {
+                this.pos = pos;
+                this.ch = charAt(this.pos);
+                return true;
+            }
+
+            if (ch == EOI) {
+                this.pos = pos;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    public final boolean skipToNextLineOrParameter(int startPosition) {
+        for (int i = 0; ; ++i) {
+            int pos = startPosition + i;
+            char ch = charAt(pos);
+            if (ch == '\n') {
+                this.pos = pos;
+                this.ch = charAt(this.pos);
+                return true;
+            }
+            if (ch == '$' && charAt(pos + 1) == '{') {
+                this.pos = pos;
+                this.ch = charAt(this.pos);
+                return true;
+            }
+
+            if (ch == EOI) {
+                this.pos = pos;
+                break;
+            }
+        }
+
+        return false;
+    }
+
     public final void nextToken() {
         startPos = pos;
         bufPos = 0;
