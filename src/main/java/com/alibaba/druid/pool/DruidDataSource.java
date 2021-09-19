@@ -1718,6 +1718,18 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
         if (holder == null) {
             long waitNanos = waitNanosLocal.get();
 
+            final long activeCount;
+            final long maxActive;
+            final long creatingCount;
+            try {
+                lock.lock();
+                activeCount = this.activeCount;
+                maxActive = this.maxActive;
+                creatingCount = this.creatingCount;
+            } finally {
+                lock.unlock();
+            }
+
             StringBuilder buf = new StringBuilder(128);
             buf.append("wait millis ")//
                .append(waitNanos / (1000 * 1000))//
