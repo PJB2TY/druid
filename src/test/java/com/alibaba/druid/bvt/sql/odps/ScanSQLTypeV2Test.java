@@ -338,7 +338,7 @@ public class ScanSQLTypeV2Test extends TestCase {
 
         Lexer lexer = SQLParserUtils.createLexer(sql, DbType.odps);
         SQLType sqlType = lexer.scanSQLTypeV2();
-        assertEquals(SQLType.LIST, sqlType);
+        assertEquals(SQLType.LIST_TEMPORARY_OUTPUT, sqlType);
     }
 
     public void test_sqlTypeV2_39() throws Exception {
