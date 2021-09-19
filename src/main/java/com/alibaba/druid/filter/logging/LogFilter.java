@@ -90,6 +90,10 @@ public abstract class LogFilter extends FilterEventAdapter implements LogFilterM
     }
 
     public void configFromProperties(Properties properties) {
+        if (properties == null) {
+            return;
+        }
+
         {
             String prop = properties.getProperty("druid.log.conn");
             if ("false".equals(prop)) {
