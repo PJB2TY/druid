@@ -1721,11 +1721,17 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
             final long activeCount;
             final long maxActive;
             final long creatingCount;
+            final long createStartNanos;
+            final long createErrorCount;
+            final Throwable createError;
             try {
                 lock.lock();
                 activeCount = this.activeCount;
                 maxActive = this.maxActive;
                 creatingCount = this.creatingCount;
+                createStartNanos = this.createStartNanos;
+                createErrorCount = this.createErrorCount;
+                createError = this.createError;
             } finally {
                 lock.unlock();
             }
@@ -1763,7 +1769,7 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
 
             String errorMessage = buf.toString();
 
-            if (this.createError != null) {
+            if (createError != null) {
                 throw new GetConnectionTimeoutException(errorMessage, createError);
             } else {
                 throw new GetConnectionTimeoutException(errorMessage);
