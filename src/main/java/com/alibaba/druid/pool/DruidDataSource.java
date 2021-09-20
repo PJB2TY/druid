@@ -2528,10 +2528,10 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
             return false;
         }
 
-        return put(holder, physicalConnectionInfo.createTaskId);
+        return put(holder, physicalConnectionInfo.createTaskId, false);
     }
 
-    private boolean put(DruidConnectionHolder holder, long createTaskId) {
+    private boolean put(DruidConnectionHolder holder, long createTaskId, boolean checkExists) {
         lock.lock();
         try {
             if (this.closing || this.closed) {
@@ -2544,6 +2544,15 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
                 }
                 return false;
             }
+
+            if (checkExists) {
+                for (int i = 0; i < poolingCount; i++) {
+                    if (connections[i] == holder) {
+                        return false;
+                    }
+                }
+            }
+
             connections[poolingCount] = holder;
             incrementPoolingCount();
 
@@ -3207,7 +3216,7 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
                 boolean discard = !validate;
                 if (validate) {
                     holer.lastKeepTimeMillis = System.currentTimeMillis();
-                    boolean putOk = put(holer, 0L);
+                    boolean putOk = put(holer, 0L, true);
                     if (!putOk) {
                         discard = true;
                     }
