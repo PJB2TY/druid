@@ -937,6 +937,17 @@ public abstract class LogFilter extends FilterEventAdapter implements LogFilterM
     }
 
     @Override
+    public void statement_clearBatch(FilterChain chain, StatementProxy statement)
+            throws SQLException {
+
+        if (isStatementParameterClearLogEnable()) {
+            statementLog("{conn-" + statement.getConnectionProxy().getId() + ", stmt-" + statement.getId()
+                    + "} clearBatch. ");
+        }
+        chain.statement_clearBatch(statement);
+    }
+
+    @Override
     public boolean isWrapperFor(Class<?> iface) {
         return iface == this.getClass() || iface == LogFilter.class;
     }

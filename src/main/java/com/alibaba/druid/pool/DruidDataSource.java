@@ -1882,7 +1882,9 @@ public class DruidDataSource extends DruidAbstractDataSource implements DruidDat
             this.discardConnection(holder);
         }
 
-        LOG.error("discard connection", error);
+
+        // holder.
+        LOG.error("{conn-" + holder.getConnectionId() + "} discard", error);
     }
 
     /**
